@@ -63,22 +63,25 @@ def super_resolution(
 
     import numpy as np
 
-    if image_url.startswith("http"):
-        rsp = requests.get(image_url)
-        image = Image.open(io.BytesIO(rsp.content)).convert("RGB")
-    else:
-        image = Image.open(f"/generated_images/{image_url}").convert("RGB")
+    paths = []
+    for image_url_i in image_url.split(";"):
+        if image_url.startswith("http"):
+            rsp = requests.get(image_url_i)
+            image = Image.open(io.BytesIO(rsp.content)).convert("RGB")
+        else:
+            image = Image.open(f"/generated_images/{image_url_i}").convert("RGB")
 
-    sr_image = model.predict(np.asarray(image))
+        sr_image = model.predict(np.asarray(image))
 
-    m = hashlib.sha1()
-    with io.BytesIO() as memf:
-        sr_image.save(memf, "JPEG")
-        data = memf.getvalue()
-        m.update(data)
+        m = hashlib.sha1()
+        with io.BytesIO() as memf:
+            sr_image.save(memf, "JPEG")
+            data = memf.getvalue()
+            m.update(data)
 
-    file_name = f"{m.hexdigest()}.jpg"
-    with open(f"/generated_images/{file_name}", "wb") as f:
-        f.write(data)
+        file_name = f"{m.hexdigest()}.jpg"
+        with open(f"/generated_images/{file_name}", "wb") as f:
+            f.write(data)
+        paths.append(file_name)
 
-    return file_name
+    return paths
