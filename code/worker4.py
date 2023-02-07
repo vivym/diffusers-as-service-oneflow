@@ -47,7 +47,7 @@ def get_pipe():
 
 
 @app.task
-def text_to_image_5(
+def text_to_image_4(
     prompt: str,
     negative_prompt: Optional[str] = None,
     guidance_scale: float = 7.5,
