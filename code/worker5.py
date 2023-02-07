@@ -63,8 +63,12 @@ def super_resolution(
 
     import numpy as np
 
-    rsp = requests.get(image_url)
-    image = Image.open(io.BytesIO(rsp.content)).convert("RGB")
+    if image_url.startswith("http"):
+        rsp = requests.get(image_url)
+        image = Image.open(io.BytesIO(rsp.content)).convert("RGB")
+    else:
+        image = Image.open(f"/generated_images/{image_url}").convert("RGB")
+
     sr_image = model.predict(np.asarray(image))
 
     m = hashlib.sha1()
