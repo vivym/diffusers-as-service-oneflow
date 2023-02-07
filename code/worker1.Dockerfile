@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM oneflowinc/oneflow-sd:cu117
 
 WORKDIR /code
 
@@ -6,4 +6,4 @@ COPY ./requirements.txt /tmp/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /tmp/requirements.txt
 
-CMD ["celery", "-A", "worker", "worker", "--loglevel", "INFO"]
+CMD ["celery", "-A", "worker1", "worker", "--loglevel", "INFO"]
