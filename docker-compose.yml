@@ -12,9 +12,11 @@ services:
       - ./uploaded_images:/uploaded_images
       - ./generated_images:/static
     depends_on:
-      - redis
       - mongo
       - worker1
+      - worker2
+      - worker3
+      - worker4
 
   worker1:
     build:
@@ -28,7 +30,8 @@ services:
     environment:
       HUGGING_FACE_HUB_TOKEN: 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
     depends_on:
-      - redis
+      - redis1
+      - mongo
     ipc: host
     ulimits:
       memlock:
@@ -42,6 +45,9 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+
+  redis1:
+    image: redis:7-alpine
 
   worker2:
     build:
@@ -55,7 +61,8 @@ services:
     environment:
       HUGGING_FACE_HUB_TOKEN: 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
     depends_on:
-      - redis
+      - redis2
+      - mongo
     ipc: host
     ulimits:
       memlock:
@@ -69,6 +76,9 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+
+  redis2:
+    image: redis:7-alpine
 
   worker3:
     build:
@@ -82,7 +92,8 @@ services:
     environment:
       HUGGING_FACE_HUB_TOKEN: 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
     depends_on:
-      - redis
+      - redis3
+      - mongo
     ipc: host
     ulimits:
       memlock:
@@ -96,6 +107,9 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+
+  redis3:
+    image: redis:7-alpine
 
   worker4:
     build:
@@ -109,7 +123,8 @@ services:
     environment:
       HUGGING_FACE_HUB_TOKEN: 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
     depends_on:
-      - redis
+      - redis4
+      - mongo
     ipc: host
     ulimits:
       memlock:
@@ -124,7 +139,7 @@ services:
               count: 1
               capabilities: [gpu]
 
-  redis:
+  redis4:
     image: redis:7-alpine
 
   mongo:

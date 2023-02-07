@@ -11,8 +11,8 @@ db = client.stable_diffusion
 
 app = Celery(
     __name__,
-    broker="redis://redis/1",
-    backend="redis://redis/1",
+    broker="redis://redis1",
+    backend="redis://redis1",
 )
 
 pipe = None
