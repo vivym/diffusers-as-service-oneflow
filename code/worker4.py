@@ -73,11 +73,11 @@ def text_to_image_4(
         try:
             m = hashlib.sha1()
             with io.BytesIO() as memf:
-                image.save(memf, "PNG")
+                image.save(memf, "JPEG")
                 data = memf.getvalue()
                 m.update(data)
 
-            file_name = f"{m.hexdigest()}.png"
+            file_name = f"{m.hexdigest()}.jpg"
             with open(f"/generated_images/{file_name}", "wb") as f:
                 f.write(data)
             paths.append(file_name)

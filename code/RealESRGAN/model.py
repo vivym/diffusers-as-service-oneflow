@@ -3,7 +3,7 @@ import torch
 from torch.nn import functional as F
 from PIL import Image
 import numpy as np
-from huggingface_hub import hf_hub_url, cached_download
+# from huggingface_hub import hf_hub_url, cached_download
 
 from .rrdbnet_arch import RRDBNet
 from .utils import pad_reflect, split_image_into_overlapping_patches, stich_together, \

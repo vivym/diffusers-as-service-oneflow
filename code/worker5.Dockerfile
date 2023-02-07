@@ -6,4 +6,4 @@ COPY ./requirements.txt /tmp/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /tmp/requirements.txt
 
-CMD ["celery", "-A", "worker5", "worker", "--loglevel", "INFO"]
+CMD ["celery", "-A", "worker5", "worker", "-P", "solo", "--loglevel", "INFO"]

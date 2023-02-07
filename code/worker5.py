@@ -1,11 +1,18 @@
 import io
 import hashlib
 import json
+import sys
 from typing import Optional
 
 import requests
 from celery import Celery
 from PIL import Image
+
+try:
+    import torch
+    from RealESRGAN import RealESRGAN
+except:
+    ...
 
 
 app = Celery(
@@ -24,9 +31,6 @@ def get_model_x2():
     if model_x2 is not None:
         return model_x2
 
-    import torch
-    from RealESRGAN import RealESRGAN
-
     model_x2 = RealESRGAN(torch.device("cuda"), scale=2)
     model_x2.load_weights("/weights/RealESRGAN_x2.pth")
 
@@ -38,9 +42,6 @@ def get_model_x4():
 
     if model_x4 is not None:
         return model_x4
-
-    import torch
-    from RealESRGAN import RealESRGAN
 
     model_x4 = RealESRGAN(torch.device("cuda"), scale=4)
     model_x4.load_weights("/weights/RealESRGAN_x4.pth")
@@ -68,11 +69,11 @@ def super_resolution(
 
     m = hashlib.sha1()
     with io.BytesIO() as memf:
-        sr_image.save(memf, "PNG")
+        sr_image.save(memf, "JPEG")
         data = memf.getvalue()
         m.update(data)
 
-    file_name = f"{m.hexdigest()}.png"
+    file_name = f"{m.hexdigest()}.jpg"
     with open(f"/generated_images/{file_name}", "wb") as f:
         f.write(data)
 

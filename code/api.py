@@ -102,7 +102,7 @@ async def diffusers_text2img(
 @app.get("/super_resolution")
 async def super_resolution_api(
     image_url: str,
-    scale: int,
+    scale: int = 2,
 ):
     task = super_resolution.delay(
         image_url=image_url,
