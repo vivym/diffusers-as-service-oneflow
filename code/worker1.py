@@ -18,13 +18,16 @@ app = Celery(
 pipe = None
 
 def get_pipe():
+    global pipe
+
+    if pipe is not None:
+        return pipe
+
     import oneflow as torch
     from diffusers import (
         OneFlowDPMSolverMultistepScheduler as DPMSolverMultistepScheduler,
         OneFlowStableDiffusionPipeline as StableDiffusionPipeline,
     )
-
-    global pipe
 
     model_id = "CompVis/stable-diffusion-v1-4"
 
