@@ -4,7 +4,8 @@ from diffusers import (
     OneFlowStableDiffusionPipeline as StableDiffusionPipeline,
 )
 
-model_id = "CompVis/stable-diffusion-v1-4"
+# model_id = "CompVis/stable-diffusion-v1-4"
+model_id = "prompthero/openjourney"
 
 dpm_solver = DPMSolverMultistepScheduler.from_config(model_id, subfolder="scheduler")
 

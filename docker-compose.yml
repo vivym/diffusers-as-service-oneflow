@@ -40,6 +40,88 @@ services:
         reservations:
           devices:
             - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  worker2:
+    build:
+      context: ./code
+      dockerfile: worker2.Dockerfile
+    volumes:
+      - ./code:/code
+      - ./uploaded_images:/uploaded_images
+      - ./generated_images:/generated_images
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    environment:
+      HUGGING_FACE_HUB_TOKEN: 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
+    depends_on:
+      - redis
+    ipc: host
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      stack: 67108864
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  worker3:
+    build:
+      context: ./code
+      dockerfile: worker3.Dockerfile
+    volumes:
+      - ./code:/code
+      - ./uploaded_images:/uploaded_images
+      - ./generated_images:/generated_images
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    environment:
+      HUGGING_FACE_HUB_TOKEN: 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
+    depends_on:
+      - redis
+    ipc: host
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      stack: 67108864
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  worker4:
+    build:
+      context: ./code
+      dockerfile: worker4.Dockerfile
+    volumes:
+      - ./code:/code
+      - ./uploaded_images:/uploaded_images
+      - ./generated_images:/generated_images
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    environment:
+      HUGGING_FACE_HUB_TOKEN: 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
+    depends_on:
+      - redis
+    ipc: host
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      stack: 67108864
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
               capabilities: [gpu]
 
   redis:

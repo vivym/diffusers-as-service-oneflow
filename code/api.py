@@ -9,6 +9,9 @@ from fastapi import FastAPI, UploadFile
 from fastapi.staticfiles import StaticFiles
 
 from worker1 import text_to_image_1
+from worker2 import text_to_image_2
+from worker3 import text_to_image_3
+from worker4 import text_to_image_4
 
 app = FastAPI()
 
@@ -53,11 +56,11 @@ async def diffusers_text2img(
     if model_name == "stable-diffusion":
         text_to_image = text_to_image_1
     elif model_name == "openjourney":
-        text_to_image = None
+        text_to_image = text_to_image_2
     elif model_name == "aniplus-v1":
-        text_to_image = None
+        text_to_image = text_to_image_3
     elif model_name == "anythingv3":
-        text_to_image = None
+        text_to_image = text_to_image_4
     else:
         return {
             "error": f"invalid model_name: {model_name}"

@@ -29,7 +29,7 @@ def get_pipe():
         OneFlowStableDiffusionPipeline as StableDiffusionPipeline,
     )
 
-    model_id = "CompVis/stable-diffusion-v1-4"
+    model_id = "Linaqruf/anything-v3.0"
 
     dpm_solver = DPMSolverMultistepScheduler.from_config(model_id, subfolder="scheduler")
 
@@ -47,7 +47,7 @@ def get_pipe():
 
 
 @app.task
-def text_to_image_1(
+def text_to_image_5(
     prompt: str,
     negative_prompt: Optional[str] = None,
     guidance_scale: float = 7.5,
@@ -96,7 +96,7 @@ def text_to_image_1(
         "height": height,
         "num_outputs": num_outputs,
         "results": results,
-        "model_name": "CompVis/stable-diffusion-v1-4",
+        "model_name": "Linaqruf/anything-v3.0",
     })
 
     return paths
