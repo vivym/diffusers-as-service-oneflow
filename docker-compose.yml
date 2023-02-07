@@ -43,7 +43,7 @@ services:
         reservations:
           devices:
             - driver: nvidia
-              count: 1
+              device_ids: ["0"]
               capabilities: [gpu]
 
   redis1:
@@ -74,7 +74,7 @@ services:
         reservations:
           devices:
             - driver: nvidia
-              count: 1
+              device_ids: ["1"]
               capabilities: [gpu]
 
   redis2:
@@ -105,7 +105,7 @@ services:
         reservations:
           devices:
             - driver: nvidia
-              count: 1
+              device_ids: ["2"]
               capabilities: [gpu]
 
   redis3:
@@ -136,7 +136,7 @@ services:
         reservations:
           devices:
             - driver: nvidia
-              count: 1
+              device_ids: ["3"]
               capabilities: [gpu]
 
   redis4:
@@ -163,7 +163,7 @@ services:
         reservations:
           devices:
             - driver: nvidia
-              count: 1
+              device_ids: ["3"]
               capabilities: [gpu]
 
   redis5:
@@ -172,8 +172,6 @@ services:
   mongo:
     image: mongo
     restart: always
-    # ports:
-    #   - 127.0.0.1:27017:27017
     volumes:
       - ./db:/data/db
     environment:
