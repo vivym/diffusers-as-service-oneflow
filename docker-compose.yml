@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: ./code
+      dockerfile: api.Dockerfile
+    ports:
+      - 127.0.0.1:8000:80
+    volumes:
+      - ./code:/code
+      - ./uploaded_images:/uploaded_images
+      - ./generated_images:/static
+    depends_on:
+      - redis
+      - mongo
+      - worker1
+
+  worker1:
+    build:
+      context: ./code
+      dockerfile: worker1.Dockerfile
+    volumes:
+      - ./code:/code
+      - ./uploaded_images:/uploaded_images
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    environment:
+      HUGGING_FACE_HUB_TOKEN: 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
+    depends_on:
+      - redis
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+
+  redis:
+    image: redis:7-alpine
+
+  mongo:
+    image: mongo
+    restart: always
+    # ports:
+    #   - 127.0.0.1:27017:27017
+    volumes:
+      - ./db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
