@@ -28,6 +28,12 @@ services:
       HUGGING_FACE_HUB_TOKEN: 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
     depends_on:
       - redis
+    ipc: host
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      stack: 67108864
     deploy:
       resources:
         reservations:

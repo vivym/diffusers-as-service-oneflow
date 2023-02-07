@@ -19,6 +19,15 @@ pipe = StableDiffusionPipeline.from_pretrained(
 pipe = pipe.to("cuda")
 
 prompt = "a photo of an astronaut riding a horse on mars"
+print("start")
+with torch.autocast("cuda"):
+    images = pipe(prompt, num_inference_steps=20, num_images_per_prompt=2).images
+    for i, image in enumerate(images):
+        image.save(f"{prompt}-of-{i}.png")
+
+
+prompt = "a photo of an astronaut riding a horse on mars"
+print("start")
 with torch.autocast("cuda"):
     images = pipe(prompt, num_inference_steps=20, num_images_per_prompt=2).images
     for i, image in enumerate(images):
