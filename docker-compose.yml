@@ -23,6 +23,7 @@ services:
     volumes:
       - ./code:/code
       - ./uploaded_images:/uploaded_images
+      - ./generated_images:/generated_images
       - ~/.cache/huggingface:/root/.cache/huggingface
     environment:
       HUGGING_FACE_HUB_TOKEN: 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
