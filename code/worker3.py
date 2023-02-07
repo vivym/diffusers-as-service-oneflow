@@ -36,7 +36,6 @@ def get_pipe():
     pipe = StableDiffusionPipeline.from_pretrained(
         model_id,
         use_auth_token=True,
-        revision="fp16",
         torch_dtype=torch.float16,
         scheduler=dpm_solver,
     )
