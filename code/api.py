@@ -8,10 +8,11 @@ from celery.result import AsyncResult
 from fastapi import FastAPI, UploadFile
 from fastapi.staticfiles import StaticFiles
 
-from worker1 import text_to_image_1
-from worker2 import text_to_image_2
-from worker3 import text_to_image_3
-from worker4 import text_to_image_4
+from worker1 import text_to_image_1, app as app1
+from worker2 import text_to_image_2, app as app2
+from worker3 import text_to_image_3, app as app3
+from worker4 import text_to_image_4, app as app4
+from worker5 import super_resolution, app as app5
 
 app = FastAPI()
 
@@ -24,9 +25,25 @@ async def root():
 app.mount("/static", StaticFiles(directory="/static"), name="static")
 
 
-@app.get("/tasks/{task_id}")
-async def get_task_status(task_id: str):
-    task_result = AsyncResult(task_id)
+@app.get("/tasks/{model_name}/{task_id}")
+async def get_task_status(model_name: str, task_id: str):
+    if model_name == "stable-diffusion":
+        backend = app1.backend
+    elif model_name == "openjourney":
+        backend = app2.backend
+    elif model_name == "aniplus-v1":
+        backend = app3.backend
+    elif model_name == "anythingv3":
+        backend = app4.backend
+    elif model_name == "super_resolution":
+        backend = app5.backend
+    else:
+        return {
+            "error": f"invalid model_name: {model_name}"
+        }
+
+
+    task_result = AsyncResult(task_id, backend=backend)
 
     result = task_result.result
     if isinstance(result, str):
@@ -79,6 +96,23 @@ async def diffusers_text2img(
     return {
         "task_id": task.id,
         "prompt": prompt,
+    }
+
+
+@app.get("/super_resolution")
+async def super_resolution_api(
+    image_url: str,
+    scale: int,
+):
+    task = super_resolution.delay(
+        image_url=image_url,
+        scale=scale,
+    )
+
+    return {
+        "task_id": task.id,
+        "image_url": image_url,
+        "scale": scale,
     }
 
 

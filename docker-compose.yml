@@ -142,6 +142,33 @@ services:
   redis4:
     image: redis:7-alpine
 
+  worker5:
+    build:
+      context: ./code
+      dockerfile: worker5.Dockerfile
+    volumes:
+      - ./code:/code
+      - ./generated_images:/generated_images
+      - ./weights:/weights
+    depends_on:
+      - redis5
+    ipc: host
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      stack: 67108864
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  redis5:
+    image: redis:7-alpine
+
   mongo:
     image: mongo
     restart: always
